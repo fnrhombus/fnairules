@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fnairules - Generate AI Coding Assistant Config Files</title>
+  <meta name="description" content="Generate CLAUDE.md, .cursorrules, copilot-instructions.md, and more from your project info. Paste your package.json and get config files in 30 seconds." />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>fnairules</h1>
+      <p class="tagline">Generate your CLAUDE.md in 30 seconds.</p>
+    </header>
+
+    <nav class="steps" aria-label="Form steps">
+      <button class="step active" data-step="1">
+        <span class="step-number">1</span>
+        <span class="step-label">Project Info</span>
+      </button>
+      <span class="step-divider"></span>
+      <button class="step" data-step="2">
+        <span class="step-number">2</span>
+        <span class="step-label">Preferences</span>
+      </button>
+      <span class="step-divider"></span>
+      <button class="step" data-step="3">
+        <span class="step-number">3</span>
+        <span class="step-label">Output</span>
+      </button>
+    </nav>
+
+    <!-- Step 1: Project Info -->
+    <section id="step-1" class="step-content active">
+      <h2>Project Info</h2>
+      <p class="step-desc">Paste a package.json or pyproject.toml to auto-detect your stack, or fill in manually.</p>
+
+      <div class="form-group">
+        <label for="config-paste">Paste package.json / pyproject.toml</label>
+        <textarea id="config-paste" rows="6" placeholder='{"name": "my-app", "dependencies": { ... }}'></textarea>
+        <button id="detect-btn" class="btn btn-secondary">Detect</button>
+      </div>
+
+      <div class="divider-text"><span>or configure manually</span></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="project-name">Project name</label>
+          <input type="text" id="project-name" placeholder="my-app" />
+        </div>
+        <div class="form-group">
+          <label for="project-desc">Description</label>
+          <input type="text" id="project-desc" placeholder="A web API for..." />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="language">Language</label>
+          <select id="language">
+            <option value="">-- select --</option>
+            <option value="TypeScript">TypeScript</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Python">Python</option>
+            <option value="Go">Go</option>
+            <option value="Rust">Rust</option>
+            <option value="Java">Java</option>
+            <option value="C#">C#</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="framework">Framework</label>
+          <select id="framework">
+            <option value="">-- none --</option>
+            <option value="Next.js">Next.js</option>
+            <option value="React">React</option>
+            <option value="Vue">Vue</option>
+            <option value="Angular">Angular</option>
+            <option value="Svelte">Svelte</option>
+            <option value="Express">Express</option>
+            <option value="Fastify">Fastify</option>
+            <option value="Hono">Hono</option>
+            <option value="NestJS">NestJS</option>
+            <option value="FastAPI">FastAPI</option>
+            <option value="Django">Django</option>
+            <option value="Flask">Flask</option>
+            <option value="Gin">Gin</option>
+            <option value="Echo">Echo</option>
+            <option value="Actix">Actix</option>
+            <option value="Axum">Axum</option>
+            <option value="Spring Boot">Spring Boot</option>
+            <option value="ASP.NET">ASP.NET</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="testing">Testing</label>
+          <select id="testing">
+            <option value="">-- none --</option>
+            <option value="vitest">vitest</option>
+            <option value="jest">jest</option>
+            <option value="mocha">mocha</option>
+            <option value="pytest">pytest</option>
+            <option value="unittest">unittest</option>
+            <option value="go test">go test</option>
+            <option value="cargo test">cargo test</option>
+            <option value="JUnit">JUnit</option>
+            <option value="xUnit">xUnit</option>
+            <option value="NUnit">NUnit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="build-tool">Build tool</label>
+          <select id="build-tool">
+            <option value="">-- none --</option>
+            <option value="vite">vite</option>
+            <option value="webpack">webpack</option>
+            <option value="esbuild">esbuild</option>
+            <option value="tsup">tsup</option>
+            <option value="rollup">rollup</option>
+            <option value="turbopack">turbopack</option>
+            <option value="cargo">cargo</option>
+            <option value="go build">go build</option>
+            <option value="maven">maven</option>
+            <option value="gradle">gradle</option>
+            <option value="dotnet">dotnet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="linting">Linting / Formatting</label>
+          <select id="linting">
+            <option value="">-- none --</option>
+            <option value="eslint">ESLint</option>
+            <option value="prettier">Prettier</option>
+            <option value="biome">Biome</option>
+            <option value="eslint+prettier">ESLint + Prettier</option>
+            <option value="ruff">Ruff</option>
+            <option value="black">Black</option>
+            <option value="rustfmt">rustfmt</option>
+            <option value="gofmt">gofmt</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="package-manager">Package manager</label>
+          <select id="package-manager">
+            <option value="">-- none --</option>
+            <option value="npm">npm</option>
+            <option value="pnpm">pnpm</option>
+            <option value="yarn">yarn</option>
+            <option value="bun">bun</option>
+            <option value="pip">pip</option>
+            <option value="poetry">poetry</option>
+            <option value="uv">uv</option>
+            <option value="cargo">cargo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <span></span>
+        <button id="next-1" class="btn btn-primary">Next</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Preferences -->
+    <section id="step-2" class="step-content">
+      <h2>Preferences</h2>
+      <p class="step-desc">Configure code style, conventions, and custom rules.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="code-style">Code style</label>
+          <select id="code-style">
+            <option value="functional">Functional (map/filter/reduce)</option>
+            <option value="oop">Object-oriented</option>
+            <option value="mixed">Mixed / no preference</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="indentation">Indentation</label>
+          <select id="indentation">
+            <option value="2 spaces">2 spaces</option>
+            <option value="4 spaces">4 spaces</option>
+            <option value="tabs">Tabs</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="commit-convention">Commit convention</label>
+          <select id="commit-convention">
+            <option value="conventional">Conventional Commits (feat:, fix:, etc.)</option>
+            <option value="gitmoji">Gitmoji</option>
+            <option value="freeform">Freeform / no convention</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="test-convention">Testing convention</label>
+          <select id="test-convention">
+            <option value="colocated">Colocated (tests next to source)</option>
+            <option value="separate">Separate test directory</option>
+            <option value="both">Both unit (colocated) + integration (separate)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="naming-convention">Naming convention</label>
+          <select id="naming-convention">
+            <option value="camelCase">camelCase (JS/TS)</option>
+            <option value="snake_case">snake_case (Python/Rust)</option>
+            <option value="PascalCase">PascalCase (C#/Java)</option>
+            <option value="mixed">Language default</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="error-handling">Error handling</label>
+          <select id="error-handling">
+            <option value="exceptions">Exceptions / try-catch</option>
+            <option value="result">Result types / Either</option>
+            <option value="mixed">Mixed / no preference</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="custom-rules">Custom rules (one per line)</label>
+        <textarea id="custom-rules" rows="5" placeholder="Always use early returns&#10;Prefer const over let&#10;No default exports"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button id="back-2" class="btn btn-secondary">Back</button>
+        <button id="next-2" class="btn btn-primary">Next</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Output -->
+    <section id="step-3" class="step-content">
+      <h2>Output</h2>
+      <p class="step-desc">Select your target formats, preview, copy, or download.</p>
+
+      <div class="form-group">
+        <label>Target formats</label>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" value="claude" checked /> CLAUDE.md
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" value="cursorrules" /> .cursorrules
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" value="copilot" /> .github/copilot-instructions.md
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" value="windsurf" /> .windsurfrules
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" value="agents" /> AGENTS.md
+          </label>
+        </div>
+      </div>
+
+      <div id="output-tabs" class="output-tabs"></div>
+      <div class="output-area">
+        <div class="output-actions">
+          <button id="copy-btn" class="btn btn-secondary">Copy</button>
+          <button id="download-btn" class="btn btn-secondary">Download</button>
+          <button id="download-all-btn" class="btn btn-secondary">Download All</button>
+        </div>
+        <pre><code id="output-preview"></code></pre>
+      </div>
+
+      <div class="form-actions">
+        <button id="back-3" class="btn btn-secondary">Back</button>
+        <span></span>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <a href="https://github.com/fnrhombus/fnairules" target="_blank" rel="noopener">GitHub</a>
+        &middot;
+        <a href="https://github.com/sponsors/fnrhombus" target="_blank" rel="noopener">Sponsor</a>
+        &middot;
+        MIT License
+      </p>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
